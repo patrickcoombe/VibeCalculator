@@ -9,3 +9,7 @@
 
 
 You can [try it out here](https://patrickcoombe.github.io/VibeCalculator/)
+
+
+I am not sure why Claude used this for the "delete last" button ⌫
+I thought it was a CSS bug but I dnot know 🤷‍♂️
