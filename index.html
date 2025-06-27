@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- HTML Calculator -->
+<!-- Vibe Coded by Claude AI -->
+<!-- Generated in 1 prompt with 2 sentences -->
+<!-- "Write a basic Javascript calculator. very simple - HTML + JS and some basic material design styling. -->
+<!-- While I use AI for debugging, snippets, etc, I've never vibe coded a "program" start to finish and wanted to see how it did. -->
+  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Design Calculator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        .calculator {
+            background-color: white;
+            border-radius: 8px;
+            padding: 24px;
+            width: 320px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        .display {
+            background-color: #fafafa;
+            color: #333;
+            font-size: 2.5rem;
+            text-align: right;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            min-height: 50px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .mdc-button {
+            height: 56px;
+            min-width: 64px;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .number-btn {
+            --mdc-theme-primary: #6200ea;
+            --mdc-theme-on-primary: white;
+        }
+
+        .operator-btn {
+            --mdc-theme-primary: #ff6f00;
+            --mdc-theme-on-primary: white;
+        }
+
+        .equals-btn {
+            --mdc-theme-primary: #2e7d32;
+            --mdc-theme-on-primary: white;
+            grid-row: span 2;
+        }
+
+        .clear-btn {
+            --mdc-theme-primary: #d32f2f;
+            --mdc-theme-on-primary: white;
+        }
+
+        .zero-btn {
+            grid-column: span 2;
+        }
+
+        .decimal-btn {
+            --mdc-theme-primary: #424242;
+            --mdc-theme-on-primary: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator mdc-elevation--z4">
+        <div class="mdc-typography--headline4">
+            <div class="display" id="display">0</div>
+        </div>
+        
+        <div class="buttons">
+            <button class="mdc-button mdc-button--raised clear-btn" onclick="clearDisplay()">
+                <span class="mdc-button__label">C</span>
+            </button>
+            <button class="mdc-button mdc-button--raised clear-btn" onclick="deleteLast()">
+                <span class="mdc-button__label">⌫</span>
+            </button>
+            <button class="mdc-button mdc-button--raised operator-btn" onclick="appendToDisplay('/')">
+                <span class="mdc-button__label">÷</span>
+            </button>
+            <button class="mdc-button mdc-button--raised operator-btn" onclick="appendToDisplay('*')">
+                <span class="mdc-button__label">×</span>
+            </button>
+            
+            <button class="mdc-button mdc-button--raised number-btn" onclick="appendToDisplay('7')">
+                <span class="mdc-button__label">7</span>
+            </button>
+            <button class="mdc-button mdc-button--raised number-btn" onclick="appendToDisplay('8')">
+                <span class="mdc-button__label">8</span>
+            </button>
+            <button class="mdc-button mdc-button--raised number-btn" onclick="appendToDisplay('9')">
+                <span class="mdc-button__label">9</span>
+            </button>
+            <button class="mdc-button mdc-button--raised operator-btn" onclick="appendToDisplay('-')">
+                <span class="mdc-button__label">-</span>
+            </button>
+            
+            <button class="mdc-button mdc-button--raised number-btn" onclick="appendToDisplay('4')">
+                <span class="mdc-button__label">4</span>
+            </button>
+            <button class="mdc-button mdc-button--raised number-btn" onclick="appendToDisplay('5')">
+                <span class="mdc-button__label">5</span>
+            </button>
+            <button class="mdc-button mdc-button--raised number-btn" onclick="appendToDisplay('6')">
+                <span class="mdc-button__label">6</span>
+            </button>
+            <button class="mdc-button mdc-button--raised operator-btn" onclick="appendToDisplay('+')">
+                <span class="mdc-button__label">+</span>
+            </button>
+            
+            <button class="mdc-button mdc-button--raised number-btn" onclick="appendToDisplay('1')">
+                <span class="mdc-button__label">1</span>
+            </button>
+            <button class="mdc-button mdc-button--raised number-btn" onclick="appendToDisplay('2')">
+                <span class="mdc-button__label">2</span>
+            </button>
+            <button class="mdc-button mdc-button--raised number-btn" onclick="appendToDisplay('3')">
+                <span class="mdc-button__label">3</span>
+            </button>
+            <button class="mdc-button mdc-button--raised equals-btn" onclick="calculate()">
+                <span class="mdc-button__label">=</span>
+            </button>
+            
+            <button class="mdc-button mdc-button--raised number-btn zero-btn" onclick="appendToDisplay('0')">
+                <span class="mdc-button__label">0</span>
+            </button>
+            <button class="mdc-button mdc-button--raised decimal-btn" onclick="appendToDisplay('.')">
+                <span class="mdc-button__label">.</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.js"></script>
+    <script>
+        // Initialize Material Design Components
+        mdc.autoInit();
+
+        let display = document.getElementById('display');
+        let currentInput = '0';
+        let shouldResetDisplay = false;
+
+        function updateDisplay() {
+            display.textContent = currentInput;
+        }
+
+        function appendToDisplay(value) {
+            if (shouldResetDisplay) {
+                currentInput = '';
+                shouldResetDisplay = false;
+            }
+            
+            if (currentInput === '0' && value !== '.') {
+                currentInput = value;
+            } else {
+                currentInput += value;
+            }
+            
+            updateDisplay();
+        }
+
+        function clearDisplay() {
+            currentInput = '0';
+            updateDisplay();
+        }
+
+        function deleteLast() {
+            if (currentInput.length > 1) {
+                currentInput = currentInput.slice(0, -1);
+            } else {
+                currentInput = '0';
+            }
+            updateDisplay();
+        }
+
+        function calculate() {
+            try {
+                // Replace × and ÷ with * and / for evaluation
+                let expression = currentInput.replace(/×/g, '*').replace(/÷/g, '/');
+                let result = eval(expression);
+                
+                // Handle division by zero and other errors
+                if (!isFinite(result)) {
+                    currentInput = 'Error';
+                } else {
+                    // Round to avoid floating point precision issues
+                    result = Math.round(result * 100000000) / 100000000;
+                    currentInput = result.toString();
+                }
+                
+                shouldResetDisplay = true;
+                updateDisplay();
+            } catch (error) {
+                currentInput = 'Error';
+                shouldResetDisplay = true;
+                updateDisplay();
+            }
+        }
+
+        // Add keyboard support
+        document.addEventListener('keydown', function(event) {
+            const key = event.key;
+            
+            if (key >= '0' && key <= '9') {
+                appendToDisplay(key);
+            } else if (key === '.') {
+                appendToDisplay('.');
+            } else if (key === '+') {
+                appendToDisplay('+');
+            } else if (key === '-') {
+                appendToDisplay('-');
+            } else if (key === '*') {
+                appendToDisplay('*');
+            } else if (key === '/') {
+                event.preventDefault();
+                appendToDisplay('/');
+            } else if (key === 'Enter' || key === '=') {
+                calculate();
+            } else if (key === 'Escape' || key === 'c' || key === 'C') {
+                clearDisplay();
+            } else if (key === 'Backspace') {
+                deleteLast();
+            }
+        });
+
+        // Add ripple effect to all buttons
+        document.querySelectorAll('.mdc-button').forEach(button => {
+            mdc.ripple.MDCRipple.attachTo(button);
+        });
+    </script>
+</body>
+</html>
